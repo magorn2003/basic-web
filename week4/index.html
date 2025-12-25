@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ยืนยันตัวตนเข้าใช้ระบบเครือข่าย มทร.กรุงเทพ (Sci-Fi Edition)</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        /* --- CORE THEME: SCI-FI DARK --- */
+        body {
+            background-color: #0d0d0d;
+            /* พื้นหลังดำเข้ม */
+            background-image:
+                linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            /* เส้น Grid จางๆ แบบ Sci-Fi */
+            font-family: 'Kanit', sans-serif;
+            /* ฟอนต์ใหม่ */
+            color: #e0e0e0;
+            font-size: 1.4rem;
+        }
+
+        h2,
+        h4,
+        h3 {
+            color: #00ff6a !important;
+            /* หัวข้อสีเขียวนีออน */
+            text-shadow: 0 0 10px rgba(0, 255, 106, 0.5);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- RGB BORDER ANIMATION --- */
+        @keyframes spin {
+            0% {
+                --rotate: 0deg;
+            }
+
+            100% {
+                --rotate: 360deg;
+            }
+        }
+
+        /* Class สำหรับกล่องที่มีขอบ RGB */
+        .scifi-box {
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 6px;
+            padding: 3px;
+            /* ความหนาของขอบ RGB */
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        /* สร้างสีรุ้งหมุนวน */
+        .scifi-box::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background-image: conic-gradient(from var(--rotate),
+                    #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80,
+                    #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+            animation: spin 4s linear infinite;
+            z-index: -1;
+        }
+
+        /* เนื้อหาข้างในกล่อง (ทับสีรุ้งให้เหลือแค่ขอบ) */
+        .scifi-inner {
+            background: #151515;
+            border-radius: 4px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        /* Property สำหรับ Animation */
+        @property --rotate {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        /* --- HEADER (GREEN PRESERVED) --- */
+        #navigation-purple {
+            background-color: #4CAF50;
+            /* สีเขียวหลัก */
+            background: linear-gradient(90deg, #2E7D32, #66BB6a);
+            /* ไล่เฉดให้ดูมีมิติ */
+            border: none;
+            border-radius: 0;
+            margin-bottom: 0;
+            box-shadow: 0 4px 15px rgba(0, 255, 100, 0.3);
+        }
+
+        #navigation-purple .nav>li>a {
+            color: white;
+            font-weight: bold;
+        }
+
+        .avatar {
+            height: 60px;
+            margin-top: 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        /* --- LOGIN FORM --- */
+        .form-login {
+            width: 100%;
+        }
+
+        /* Input Fields Styling */
+        .form-log-in-with-email input {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .form-log-in-with-email input:focus {
+            border-color: #00ff6a;
+            box-shadow: 0 0 10px rgba(0, 255, 106, 0.3);
+            outline: none;
+        }
+
+        .form-row>label span {
+            color: #aaa;
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- RGB LOGIN BUTTON --- */
+        .btn-rgb {
+            position: relative;
+            background: transparent;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            padding: 3px;
+            /* ความหนาขอบปุ่ม */
+            border-radius: 30px;
+            width: 100%;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .btn-rgb::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from var(--rotate), #ff0000, #00ff00, #0000ff, #ff0000);
+            animation: spin 3s linear infinite;
+            z-index: -2;
+        }
+
+        .btn-rgb span {
+            display: block;
+            background: #000;
+            /* สีพื้นปุ่ม */
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .btn-rgb:hover span {
+            background: #004d26;
+            /* เปลี่ยนสีเมื่อเอาเมาส์ชี้ */
+            box-shadow: inset 0 0 20px rgba(0, 255, 100, 0.5);
+        }
+
+        /* --- LINKS & TEXT --- */
+        a {
+            color: #00bcd4;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0 0 5px #00bcd4;
+        }
+
+        .well {
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        /* Reset Well */
+
+        /* --- TABLE STYLING --- */
+        .table-bordered {
+            border: 1px solid #444;
+        }
+
+        .table-bordered>thead>tr>th {
+            background-color: #1f3a26;
+            color: #00ff6a;
+            border-bottom: 2px solid #00ff6a;
+        }
+
+        .table-bordered>tbody>tr>td {
+            background-color: transparent;
+            border: 1px solid #333;
+            color: #ccc;
+        }
+
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- FOOTER --- */
+        .footer-distributed {
+            background-color: #0a0a0a;
+            border-top: 3px solid #00ff6a;
+            color: #888;
+            margin-top: 50px;
+        }
+
+        .footer-distributed h3 {
+            color: #fff !important;
+        }
+
+        .footer-distributed h3 span {
+            color: #00ff6a;
+        }
+
+        .footer-icons a {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .footer-icons a:hover {
+            background-color: #00ff6a;
+            color: #000;
+        }
+
+        /* ปรับ Layout ให้เหมือนเดิม */
+        .main-content {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default" id="navigation-purple">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" style="float:left; padding: 5px; text-decoration: none;">
+
+                    <img src="https://sp-ao.shortpixel.ai/client/to_auto,q_lossy,ret_img,w_169/https://www.rmutk.ac.th/wp-content/uploads/2018/09/RMUTK-LOGO-01-169x300.jpg" alt="logo"
+                        style="height: 50px; display: inline-block; vertical-align: middle; margin-right: 10px; border-radius: 4px;">
+
+                    <h1
+                        style="margin:0; color:white; font-weight:bold; font-size: 24px; display: inline-block; vertical-align: middle;">
+                        RMUTK <span style="font-size:14px; opacity:0.8; display:block; line-height:1;">INTERNET
+                            LOGIN</span>
+                    </h1>
+
+                </a>
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="col-lg-3 col-md-3 col-sm-12" style="margin-top:30px">
+            <h2>LOGIN SYSTEM</h2>
+
+            <div class="scifi-box">
+                <div class="scifi-inner form-log-in-with-email">
+                    <form class="form-login" method="post" action="/">
+                        <input type="hidden" name="4Tredir" value="#">
+                        <input type="hidden" name="magic" value="#">
+
+                        <div class="form-row">
+                            <label><span>Username</span></label>
+                            <input name="username" id="ft_un" type="text" placeholder="Enter Username" autofocus="">
+                        </div>
+
+                        <div class="form-row">
+                            <label><span>Password</span></label>
+                            <input name="password" id="ft_pd" type="password" placeholder="Enter Password">
+                        </div>
+
+                        <button type="submit" id="submit" name="submit" class="btn-rgb">
+                            <span>LOG IN</span>
+                        </button>
+
+                        <div style="margin-top: 20px; text-align:center;">
+                            <a href="https://passwd.rmutk.ac.th/">เปลี่ยนรหัสผ่าน คลิกที่นี่</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="scifi-box">
+                <div class="scifi-inner" style="text-align: center;">
+                    <span style="color:#ff4444; font-weight:bold; font-size: 1.1em;">
+                        <i class="fa fa-exclamation-triangle"></i> ลืมรหัสผ่าน?
+                    </span>
+                    <br><br>
+                    ติดต่อขอ Reset รหัสผ่านได้ที่<br>
+                    <span style="color:#00ff6a; font-size: 1.5em; font-weight:bold;">0 2287 7010</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-sm-12" style="margin-top:30px">
+            <h2><i class="fa fa-rss"></i> ข่าวประกาศ</h2>
+
+            <div class="scifi-box">
+                <div class="scifi-inner">
+                    <h4>การเชื่อมต่อ Wifi โดยไม่ต้องกรอกรหัสผ่านบ่อยครั้ง</h4>
+                    <p>เพื่อลดปัญหาการกรอกรหัสผ่านบ่อยครั้งขณะใช้งาน Wifi ภายในมหาวิทยาลัย:</p>
+                    <ul>
+                        <li>เชื่อมต่อ Access Point ชื่อ <b style="color:#00ff6a">RMUTK-Mobile</b></li>
+                        <li>(เฉพาะเครื่องส่วนตัวเท่านั้น ระบบจะจำการ Login ไว้)</li>
+                        <li><u style="color:#00bcd4">ข้อดี:</u> เชื่อมต่ออัตโนมัติในครั้งถัดไป</li>
+                        <li><small style="color:#aaa">* AP ชื่อ RMUTKWiFi และ RMUTKWiFi_1 ยังใช้งานได้ตามปกติ</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="scifi-box">
+                <div class="scifi-inner">
+                    <h4><i class="fa fa-gavel"></i> บทลงโทษ พรบ. คอมพิวเตอร์ 2550</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ฐานความผิด⛔</th>
+                                    <th>โทษจำคุก🏛️</th>
+                                    <th>โทษปรับ💸</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        มาตรา 5 การเข้าถึงระบบคอมพิวเตอร์โดยมิชอบ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 6 เดือน
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 10,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 6
+                                        การเปิดเผยมาตรการป้องกันการเข้าถึงระบบคอมพิวเตอร์ที่ผู้อื่นจัดทำขึ้นเป็นการเฉพาะโดยไม่ชอบ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 1 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 20,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 7 การเข้าถึงข้อมูลคอมพิวเตอร์โดยไม่ชอบ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 2 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 40,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 8 การดักรับข้อมูลคอมพิวเตอร์ของผู้อื่นโดยไม่ชอบ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 3 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 60,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 9 การทำให้เสียหาย ทำลาย แก้ไข
+                                        เปลี่ยนแปลงเพิ่มเติมข้อมูลคอมพิวเตอร์โดยไม่ชอบ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 5 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 100,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 10
+                                        การกระทำเพื่อให้การทำงานของระบบคอมพิวเตอร์ของผู้อื่นไม่สามารถทำงานได้ตามปกติ
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 5 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 100,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 11 การส่งข้อมูลคอมพิวเตอร์รบกวนการใช้ระบบคอมพิวเตอร์ของคนอื่นโดยปกติสุข
+                                        (Spam Mail)
+                                    </td>
+                                    <td>
+                                        ไม่มี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 100,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 12 การจำหน่ายชุดคำสั่งที่จัดทำขึ้นเพื่อนำไปใช้เป็นเครื่องมือในการกระทำผิด
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 1 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 20,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 13 การกระทำผิดต่อความมั่นคง
+                                        <li>
+                                            ก่อความเสียหายแก่ข้อมูลคอมพิวเตอร์ฺ
+                                        </li>
+                                        <li>
+                                            กระทบต่อความมั่นคงความปลอดภัยของประเทศ / เศรษฐกิจ
+                                        </li>
+                                        <li>
+                                            เป็นเหตุให้ผู้อื่นถึงแก่ชีวิต
+                                        </li>
+                                    </td>
+                                    <td>
+                                        <br>
+                                        <li>
+                                            ไม่เกิน 10 ปี
+                                        </li>
+                                        <li>
+                                            3 ปี - 15 ปี
+                                        </li>
+                                        <li>
+                                            10 ปี - 20 ปี
+                                        </li>
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 200,000 บาท และ 60,000 - 300,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 14 การใช้ระบบคอมพิวเตอร์ทำความผิดอื่น (เผยแพร่ เนื้อหาอันไม่เหมาะสม)
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 5 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 100,000 บาท
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 15 ผู้ให้บริการจงใจสนับสนุนหรือยินยอมให้มีการกระทำความผิด
+                                    </td>
+                                    <td>
+                                        ต้องระวางโทษเช่นเดียวกับผู้กระทำความผิด
+                                    </td>
+                                    <td>
+                                        ต้องระวางโทษเช่นเดียวกับผู้กระทำความผิด
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        มาตรา 16 การตกแต่งข้อมูลคอมพิวเตอร์ที่เป็นภาพของบุคคล
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 3 ปี
+                                    </td>
+                                    <td>
+                                        ไม่เกิน 60,000 บาท
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-distributed">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>UTK <span>Carit</span></h3>
+                    <p class="footer-links">
+                        <a href="#">Home</a> · <a href="#">Blog</a> · <a href="#">Pricing</a>
+                    </p>
+                    <p class="footer-company-name">มหาวิทยาลัยเทคโนโลยีราชมงคลกรุงเทพ © 2025</p>
+                </div>
+                <div class="col-md-4">
+                    <div><i class="fa fa-map-marker"></i>
+                        <p>มทร.กรุงเทพ ถ.นางลิ้นจี่</p>
+                    </div>
+                    <div><i class="fa fa-phone"></i>
+                        <p>0 2287 7010</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="footer-company-about">
+                        <span>เกี่ยวกับเรา</span>
+                        สำนักวิทยบริการและเทคโนโลยีสารสนเทศ
+                    </p>
+                    <div class="footer-icons">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

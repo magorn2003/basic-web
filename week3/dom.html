@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>เรียนเรื่องdom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@100..900&display=swap" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="flex-header nav-menu-container">
+        <a class="nav-menu-item" href="index.html">หน้าเเรก</a>
+        <a class="nav-menu-item" href="https://www.facebook.com/">Facebook ของฉัน</a>
+        <a class="nav-menu-item" href="../week2/index.html">ไปหน้าต่อไป</a>
+        <!-- (./) ดูได้ในระดับfolder (../) ดูได้นอกระดับfolder-->
+        <a class="nav-menu-item" href="./dom.html">บทเรียนเรื่อง DOM เเละ BOM</a>
+    </div>
+    <div class="flex-header oto-serif-thai-uniquifier nav-menu-container">
+        <h2>เรียนเรื่อง Get Element By Tag name</h2>
+    </div>
+    <script>
+        const aTag = document.getElementsByTagName('a')
+        console.log(aTag)
+
+        const navMenuClassItem = document.getElementsByClassName('nav-menu-item')
+        navMenuClassItem[1].innerText = 'เปลี่ยนข้อความดู'
+    </script>
+</body>
+
+</html>

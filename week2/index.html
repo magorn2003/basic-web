@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test webevent</title>
+        <style>
+            input{
+                width: 401px;
+                font-size: 30px;
+                color: rgb(234, 185, 228);
+                background-color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+    <h2>ทดสอบการอ่านจากinput</h2>
+    <p id = "show-msg">ข้อความที่อ่านได้</p>
+    <input id= "msg-input"placeholder="ชื่อ" type="text">
+
+    <h2>เลือกภาษาโปรเเกรมที่ชอบ select</h2>
+
+    <select id="select-input">
+        <option>java</option>
+        <option>python</option>
+        <option>Go</option>
+    </select>
+
+    <script>
+        const msgInputElement= document.getElementById('msg-input')
+        msgInputElement.addEventListener("input", function() {
+        const msg = this.Value
+        const showMsgElement= document.getElementById('show-msg')
+        showMsgElement.innerText ='ยินดีต้อนรับ' + msg
+        })
+        const msgSelectElement= document.getElementById('select-input')
+        msgInputElement.addEventListener("input", function() {
+        const msg = this.Value
+        const showMsgElement= document.getElementById('show-select-msg')
+        showMsgElement.innerText ='คุณเลือกภาษา' + msg
+        })
+    </script>
+    </body>
